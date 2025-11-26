@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char name[50], course[50];
+    int age, n, i;
+
+    // Create and open the file for writing
+    fp = fopen("student_records.txt", "w");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    printf("Writing Student Database:\n");
+    printf("How many students do you want to record? ");
+    scanf("%d", &n);
+    getchar(); // clear newline
+
+    for (i = 1; i <= n; i++) {
+        printf("\nStudent %d\n", i);
+
+        printf("Enter Name: ");
+        fgets(name, sizeof(name), stdin);
+
+        printf("Enter Age: ");
+        scanf("%d", &age);
+        getchar(); // clear newline
+
+        printf("Enter Course: ");
+        fgets(course, sizeof(course), stdin);
+
+        // Write to the file
+        fprintf(fp, "Student %d\n", i);
+        fprintf(fp, "Name: %s", name);
+        fprintf(fp, "Age: %d\n", age);
+        fprintf(fp, "Course: %s", course);
+        fprintf(fp, "-----------------------------\n\n");
+    }
+
+    fclose(fp);
+    printf("\nStudent database successfully saved to file.\n");
+
+    // Reading the file
+    printf("\nReading Student Database:\n\n");
+
+    fp = fopen("student_records.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file for reading!\n");
+        return 1;
+    }
+
+    char line[200];
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(fp);
+
+    return 0;
+}
